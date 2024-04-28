@@ -82,6 +82,7 @@ const initialJobs = [
 const Jobs = () => {
     const [jobs, setJobs] = useState(initialJobs);
     const [filteredJobs, setFilteredJobs] = useState(initialJobs); 
+    const [displayedJobsCount, setDisplayedJobsCount] = useState(3); // Initial number of jobs to display
 
     const handleSearch = (searchTerm, companySearchTerm, locationSearchTerm) => {
         const filtered = initialJobs.filter(job => {
@@ -108,11 +109,18 @@ const Jobs = () => {
         setFilteredJobs(initialJobs);
     };
 
+    const handleShowMore = () => {
+        console.log("Show more button clicked");
+        setDisplayedJobsCount(prevCount => prevCount + 3); // Increase the number of displayed jobs
+    };
+
+    console.log("Displayed jobs count:", displayedJobsCount);
+
     return (
         <div>
             <Search onSearch={handleSearch} onFilter={handleFilter} onClearAll={handleClearAllFilters} />
             <div className={styles.jobContainer}>
-                {filteredJobs.map(job => (
+                {filteredJobs.slice(0, displayedJobsCount).map(job => (
                     <div key={job.id} className={styles.singleJob}>
                         <span className={styles.flex_container}>
                             <div className={styles.company_container}>
@@ -132,6 +140,11 @@ const Jobs = () => {
                     </div>
                 ))}
             </div>
+            {displayedJobsCount < filteredJobs.length && (
+                <div className={styles.showMoreButtonContainer}>
+                    <button className={styles.showMoreButton} onClick={handleShowMore}>Show More</button>
+                </div>
+            )}
         </div>
     );
 };

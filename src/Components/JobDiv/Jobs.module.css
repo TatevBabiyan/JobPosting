@@ -5,7 +5,7 @@
   flex-wrap: wrap;
   align-items: flex-start;
   padding-top: 10px;
-  max-width: 1830px;
+  max-width: 1230px;
   margin: 0 auto;
 }
 
@@ -13,13 +13,13 @@
   flex: 1 1 250px;
   max-width: 300px; 
   max-height: 300px;
+  margin-bottom: 30px;
   padding: 30px;
   background-color: white;
   border-radius: 10px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
   cursor: pointer;  
 }
-
 
 
 .flex_container {

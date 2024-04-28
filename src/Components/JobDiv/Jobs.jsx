@@ -1,119 +1,116 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styles from "./Jobs.module.css";
 import { IoTimeOutline } from "react-icons/io5";
-
-// Import logos
+import Logo1 from '../../Assets/Logo1.svg';
+import Logo2 from '../../Assets/Logo2.svg';
+import Logo3 from '../../Assets/Logo3.svg';
 import Logo4 from '../../Assets/Logo4.svg';
 import Logo5 from '../../Assets/Logo5.svg';
+import Logo6 from '../../Assets/Logo6.svg';
 
-const initialJobs = [
+import Search from '../SearchDiv/Search';
+
+const initialJobs = [ 
     {
         id: 1,
+        title: "Web Developer",
+        company: "Netflix",
+        logo: Logo1,
+        type: "Full-time",
+        level: "Junior",
+        location: "USA",
+        description: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eveniet, soluta facere ullam unde recusandae autem nisi adipisci assumenda veritatis excepturi fuga totam. Eum recusandae expedita culpa natus. Sint, non nisi.",
+        time: "Now"
+    },
+    {
+        id: 2,
         title: "Backend Developer",
+        company: "Meta",
+        logo: Logo2,
+        type: "Half-time",
+        level: "Junior",
+        location: "London",
+        description: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eveniet, soluta facere ullam unde recusandae autem nisi adipisci assumenda veritatis excepturi fuga totam. Eum recusandae expedita culpa natus. Sint, non nisi.",
+        time: "Now"
+    },
+    {
+        id: 3,
+        title: "UI Designer",
+        company: "Twitter",
+        logo: Logo3,
+        type: "Full-time",
+        level: "Junior",
+        location: "Armenia",
+        description: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eveniet, soluta facere ullam unde recusandae autem nisi adipisci assumenda veritatis excepturi fuga totam. Eum recusandae expedita culpa natus. Sint, non nisi.",
+        time: "Now"
+    },
+    {
+        id: 4,
+        title: "Project Manager",
         company: "Google",
         logo: Logo4,
         type: "Full-time",
         level: "Junior",
-        location: "Remote",
+        location: "Armenia",
         description: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eveniet, soluta facere ullam unde recusandae autem nisi adipisci assumenda veritatis excepturi fuga totam. Eum recusandae expedita culpa natus. Sint, non nisi.",
         time: "Now"
     },
-    // Add more initial job data if needed
+    {
+        id: 5,
+        title: "FullStack Developer",
+        company: "Microsoft",
+        logo: Logo5,
+        type: "Full-time",
+        level: "Senior",
+        location: "Italy",
+        description: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eveniet, soluta facere ullam unde recusandae autem nisi adipisci assumenda veritatis excepturi fuga totam. Eum recusandae expedita culpa natus. Sint, non nisi.",
+        time: "Now"
+    },
+    {
+        id: 6,
+        title: "Backend Developer",
+        company: "Figma",
+        logo: Logo6,
+        type: "Full-time",
+        level: "Junior",
+        location: "Armenia",
+        description: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eveniet, soluta facere ullam unde recusandae autem nisi adipisci assumenda veritatis excepturi fuga totam. Eum recusandae expedita culpa natus. Sint, non nisi.",
+        time: "Now"
+    },
 ];
 
-const Jobs = ({ searchTerm, companySearchTerm, locationSearchTerm, sortBy, level, type }) => {
+const Jobs = () => {
     const [jobs, setJobs] = useState(initialJobs);
-    const [filteredJobs, setFilteredJobs] = useState([]);
-    const [newJobForm, setNewJobForm] = useState({
-        title: "",
-        company: "",
-        logo: null,
-        type: "",
-        level: "",
-        location: "",
-        description: "",
-        time: "Now"
-    });
+    const [filteredJobs, setFilteredJobs] = useState(initialJobs); 
 
-    useEffect(() => {
-        // Filter jobs based on search terms and filters
-        const filtered = jobs.filter(job => {
-            const titleMatch = job.title.toLowerCase().includes(searchTerm.toLowerCase());
-            const companyMatch = job.company.toLowerCase().includes(companySearchTerm.toLowerCase());
-            const locationMatch = job.location.toLowerCase().includes(locationSearchTerm.toLowerCase());
-            const typeMatch = job.type.toLowerCase().includes(type.toLowerCase());
-            const levelMatch = job.level.toLowerCase().includes(level.toLowerCase());
-
-            return titleMatch && companyMatch && locationMatch && typeMatch && levelMatch;
+    const handleSearch = (searchTerm, companySearchTerm, locationSearchTerm) => {
+        const filtered = initialJobs.filter(job => {
+            const titleMatch = searchTerm ? job.title.toLowerCase().includes(searchTerm.toLowerCase()) : true;
+            const companyMatch = companySearchTerm ? job.company.toLowerCase().includes(companySearchTerm.toLowerCase()) : true;
+            const locationMatch = locationSearchTerm ? job.location.toLowerCase().includes(locationSearchTerm.toLowerCase()) : true;
+            return titleMatch && companyMatch && locationMatch;
         });
 
         setFilteredJobs(filtered);
-    }, [jobs, searchTerm, companySearchTerm, locationSearchTerm, sortBy, level, type]);
-
-    const deleteJob = (id) => {
-        const updatedJobs = jobs.filter(job => job.id !== id);
-        setJobs(updatedJobs);
     };
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setNewJobForm({ ...newJobForm, [name]: value });
-    };
-
-    const handleLogoChange = (e) => {
-        const file = e.target.files[0];
-        setNewJobForm({ ...newJobForm, logo: URL.createObjectURL(file) });
-    };
-
-    const addJob = () => {
-        const newJob = {
-            id: jobs.length + 1,
-            title: newJobForm.title,
-            company: newJobForm.company,
-            logo: newJobForm.logo || Logo5, 
-            type: newJobForm.type,
-            level: newJobForm.level,
-            location: newJobForm.location,
-            description: newJobForm.description,
-            time: newJobForm.time
-        };
-        const updatedJobs = [...jobs, newJob]; 
-        setJobs(updatedJobs);
-
-        const filtered = updatedJobs.filter(job => {
-            const titleMatch = job.title.toLowerCase().includes(searchTerm.toLowerCase());
-            const companyMatch = job.company.toLowerCase().includes(companySearchTerm.toLowerCase());
-            const locationMatch = job.location.toLowerCase().includes(locationSearchTerm.toLowerCase());
-            const typeMatch = job.type.toLowerCase().includes(type.toLowerCase());
-            const levelMatch = job.level.toLowerCase().includes(level.toLowerCase());
-
-            return titleMatch && companyMatch && locationMatch && typeMatch && levelMatch;
+    const handleFilter = (levelSearchTerm, typeSearchTerm) => {
+        const filtered = initialJobs.filter(job => {
+            const levelMatch = levelSearchTerm ? job.level.toLowerCase() === levelSearchTerm.toLowerCase() : true;
+            const typeMatch = typeSearchTerm ? job.type.toLowerCase() === typeSearchTerm.toLowerCase() : true;
+            return levelMatch && typeMatch;
         });
+    
+        setFilteredJobs(filtered);
+    };
 
-        if (sortBy === "inclusive") {
-            filtered.sort((a, b) => a.title.localeCompare(b.title));
-        } else if (sortBy === "starts_with") {
-            filtered.sort((a, b) => a.title.startsWith(b.title) ? -1 : 1);
-        } else if (sortBy === "contains") {
-            filtered.sort((a, b) => a.title.includes(b.title) ? -1 : 1);
-        }
-
-        setFilteredJobs(filtered); 
-
-        setNewJobForm({
-            title: "",
-            company: "",
-            logo: null,
-            type: "",
-            level: "",
-            location: "",
-            description: "",
-            time: "Now"
-        });
+    const handleClearAllFilters = () => {
+        setFilteredJobs(initialJobs);
     };
 
     return (
         <div>
+            <Search onSearch={handleSearch} onFilter={handleFilter} onClearAll={handleClearAllFilters} />
             <div className={styles.jobContainer}>
                 {filteredJobs.map(job => (
                     <div key={job.id} className={styles.singleJob}>
@@ -127,75 +124,13 @@ const Jobs = ({ searchTerm, companySearchTerm, locationSearchTerm, sortBy, level
                             </span>
                         </span>
                         <span className={styles.company_name}>{job.company}</span>
-
-                        {/* Display job details */}
                         <button className={styles.button17}>{job.type}</button>
                         <button className={styles.button17}>{job.level}</button>
                         <button className={styles.button17}>{job.location}</button>
-
                         <p className={styles.custom_paragraph}>{job.description}</p>
                         <button className={styles.button13}>Apply Now</button>
-                        <button className={styles.button13} onClick={() => deleteJob(job.id)}>Delete</button>
                     </div>
                 ))}
-            </div>
-            {/* Form to add new job */}
-            <div className={styles.singleJob}>
-                <input
-                    type="text"
-                    placeholder="Title"
-                    name="title"
-                    value={newJobForm.title}
-                    onChange={handleChange}
-                    className={styles.inputField}
-                />
-                <input
-                    type="text"
-                    placeholder="Company"
-                    name="company"
-                    value={newJobForm.company}
-                    onChange={handleChange}
-                    className={styles.inputField}
-                />
-                <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleLogoChange}
-                    className={styles.inputField}
-                />
-                <input
-                    type="text"
-                    placeholder="Type"
-                    name="type"
-                    value={newJobForm.type}
-                    onChange={handleChange}
-                    className={styles.inputField}
-                />
-                <input
-                    type="text"
-                    placeholder="Level"
-                    name="level"
-                    value={newJobForm.level}
-                    onChange={handleChange}
-                    className={styles.inputField}
-                />
-                <input
-                    type="text"
-                    placeholder="Location"
-                    name="location"
-                    value={newJobForm.location}
-                    onChange={handleChange}
-                    className={styles.inputField}
-                />
-                <input
-                    type="text"
-                    placeholder="Description"
-                    name="description"
-                    value={newJobForm.description}
-                    onChange={handleChange}
-                    className={styles.inputField}
-                />
-                <button className={styles.button13} onClick={addJob}>Post</button>
             </div>
         </div>
     );

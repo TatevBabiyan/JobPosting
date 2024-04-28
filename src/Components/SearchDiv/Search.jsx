@@ -1,7 +1,5 @@
-// Search.jsx
 import React, { useState } from "react";
 import { CiSearch } from "react-icons/ci";
-import { CiCircleRemove } from "react-icons/ci";
 import { GoHome } from "react-icons/go";
 import { CiLocationOn } from "react-icons/ci";
 
@@ -11,13 +9,11 @@ const Search = ({ onSearch, onClearAll, onFilter }) => {
     const [searchTerm, setSearchTerm] = useState("");
     const [companySearchTerm, setCompanySearchTerm] = useState("");
     const [locationSearchTerm, setLocationSearchTerm] = useState("");
-    const [sortBy, setSortBy] = useState("");
     const [level, setLevel] = useState("");
     const [type, setType] = useState("");
 
     const handleSearch = (e) => {
         e.preventDefault();
-        // Call the onSearch function passed as a prop and pass the current search terms and filters
         onSearch(searchTerm, companySearchTerm, locationSearchTerm);
     };
 
@@ -25,16 +21,13 @@ const Search = ({ onSearch, onClearAll, onFilter }) => {
         setSearchTerm("");
         setCompanySearchTerm("");
         setLocationSearchTerm("");
-        setSortBy("");
         setLevel("");
         setType("");
-        // Call the onClearAll function passed as a prop
         onClearAll();
     };
 
     const handleFilter = () => {
-        // Call the onFilter function passed as a prop and pass the current sorting and filtering criteria
-        onFilter(sortBy, level, type);
+        onFilter(level, type);
     };
 
     return (
@@ -85,8 +78,8 @@ const Search = ({ onSearch, onClearAll, onFilter }) => {
                     >
                         <option value="">Select Level</option>
                         <option value="Junior">Junior</option>
-                        <option value="Mid-Senior">Mid-Senior</option>
                         <option value="Intern">Intern</option>
+                        <option value="Senior">Senior</option>
                     </select>
                 </div>
                 <div className={styles.SingleSearch}>
@@ -100,7 +93,7 @@ const Search = ({ onSearch, onClearAll, onFilter }) => {
                         <option value="">Select Type</option>
                         <option value="Full-time">Full-time</option>
                         <option value="Half-time">Half-time</option>
-                        <option value="Remote">Remote</option>
+                        {/* <option value="Remote">Remote</option> */}
                     </select>
                 </div>
                 <button className={styles.Clear} onClick={handleFilter}>Filter</button>
